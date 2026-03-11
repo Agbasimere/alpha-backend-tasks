@@ -1,0 +1,89 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<header>
+  <h1>{{ title|e }}</h1>
+  <p class="subtitle">
+    {{ company_name|e }} ({{ ticker|e }}){% if sector %} · {{ sector|e }}{% endif %}
+  </p>
+</header>
+
+<main>
+  <section aria-labelledby="company-info-heading">
+    <h2 id="company-info-heading">Company Information</h2>
+    <div class="grid">
+      <div>
+        <div class="meta-label">Company</div>
+        <div class="meta-value">{{ company_name|e }}</div>
+      </div>
+      <div>
+        <div class="meta-label">Ticker</div>
+        <div class="meta-value">{{ ticker|e }}</div>
+      </div>
+      {% if sector %}
+      <div>
+        <div class="meta-label">Sector</div>
+        <div class="meta-value">{{ sector|e }}</div>
+      </div>
+      {% endif %}
+      {% if analyst_name %}
+      <div>
+        <div class="meta-label">Analyst</div>
+        <div class="meta-value">{{ analyst_name|e }}</div>
+      </div>
+      {% endif %}
+    </div>
+  </section>
+
+  <section aria-labelledby="summary-heading">
+    <h2 id="summary-heading">Executive Summary</h2>
+    <p>{{ summary|e }}</p>
+  </section>
+
+  <section aria-labelledby="key-points-heading">
+    <h2 id="key-points-heading">Key Points</h2>
+    <ul>
+      {% for point in key_points %}
+      <li>{{ point|e }}</li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <section aria-labelledby="risks-heading">
+    <h2 id="risks-heading">Risks</h2>
+    <ul>
+      {% for risk in risks %}
+      <li>{{ risk|e }}</li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <section aria-labelledby="recommendation-heading">
+    <h2 id="recommendation-heading">Recommendation</h2>
+    <p>{{ recommendation|e }}</p>
+  </section>
+
+  {% if metrics and metrics|length > 0 %}
+  <section aria-labelledby="metrics-heading">
+    <h2 id="metrics-heading">Key Metrics</h2>
+    <table class="metrics-table">
+      <thead>
+        <tr>
+          <th scope="col">Metric</th>
+          <th scope="col">Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for metric in metrics %}
+        <tr>
+          <td>{{ metric.name|e }}</td>
+          <td>{{ metric.value|e }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+  {% endif %}
+</main>
+{% endblock %}
+
