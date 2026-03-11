@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session
 from app.db.session import get_db
 from app.schemas.briefing import BriefingCreateSchema, BriefingResponseSchema
 from app.services import briefing_service
+from app.models.briefing import Briefing
 
 router = APIRouter(tags=["briefings"])
 
@@ -82,4 +83,13 @@ def get_briefing_html(
         ) from exc
 
     return Response(content=html, media_type="text/html")
+
+@router.delete("/briefings/{briefing_id}")
+def delete_briefing(briefing_id: int, db: Session = Depends(get_db)):
+    briefing = db.query(Briefing).filter(Briefing.id == briefing_id).first()
+    if not briefing:
+        raise HTTPException(status_code=404, detail="Briefing not found")
+    db.delete(briefing)
+    db.commit()
+    return {"status": "deleted"}
 

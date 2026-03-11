@@ -3,19 +3,13 @@ import { DataSourceOptions } from 'typeorm';
 
 import { SampleCandidate } from '../entities/sample-candidate.entity';
 import { SampleWorkspace } from '../entities/sample-workspace.entity';
-import { InitialStarterEntities1710000000000 } from '../migrations/1710000000000-InitialStarterEntities';
+import { CandidateDocument } from '../entities/candidate-document.entity';
+import { CandidateSummary } from '../entities/candidate-summary.entity';
 
-export const defaultDatabaseUrl =
-  'postgres://assessment_user:assessment_pass@localhost:5432/assessment_db';
-
-export const getTypeOrmOptions = (
-  databaseUrl: string,
-): TypeOrmModuleOptions & DataSourceOptions => ({
-  type: 'postgres',
-  url: databaseUrl,
-  entities: [SampleWorkspace, SampleCandidate],
-  migrations: [InitialStarterEntities1710000000000],
-  migrationsTableName: 'typeorm_migrations',
-  synchronize: false,
-  logging: false,
+export const getTypeOrmOptions = (): TypeOrmModuleOptions & DataSourceOptions => ({
+  type: 'sqlite',
+  database: 'db.sqlite',
+  entities: [SampleWorkspace, SampleCandidate, CandidateDocument, CandidateSummary],
+  synchronize: true,
+  logging: true,
 });
